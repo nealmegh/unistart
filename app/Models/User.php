@@ -69,10 +69,7 @@ class User extends Authenticatable
      *: \Illuminate\Database\Eloquent\Relations\HasMany
      * @var array
      */
-    public function bookings()
-    {
-        return $this->hasMany('App\Models\Booking');
-    }
+   
     public function student(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne('App\Models\Student');

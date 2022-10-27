@@ -25,6 +25,7 @@ use Symfony\Component\Mime\Email;
 |
 */
 
+
 Route::get('/', [HomeController::class, 'index'])->name('land');
 Route::get('/student_registration', [StudentController::class, 'student_register'])->name('student.register');
 Route::post('/student_registration_store', [StudentController::class, 'student_register_store'])->name('student.register.store');
@@ -35,7 +36,7 @@ Route::post('/teacher_registration_store', [TeacherController::class, 'teacher_r
 
 
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/dashboard', [FrontendController::class, 'return_dashboard'])->name('return.dashboard');
     Route::get('user/profile',[FrontendController::class, 'myInfo'])->name('user.profile');
     Route::post('user/update/{id}', [UserController::class,'update'])->name('user.update');
