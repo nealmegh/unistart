@@ -64,6 +64,7 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
     public function student(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne('App\Models\Student');
@@ -73,20 +74,6 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\Teacher');
     }
 
-    public function breadCrumbs(){
-        $router = Route::current()->action['prefix'];
-
-        $routeNames = explode('/', $router);
-        $breadCrumbs = [];
-        foreach ($routeNames as $r)
-        {
-            $breadCrumbs[] = ucfirst($r);
-        }
-        unset($breadCrumbs[0]);
-
-        return $breadCrumbs;
-
-    }
     public function role($role_id)
     {
 

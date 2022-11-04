@@ -161,7 +161,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Maatwebsite\Excel\ExcelServiceProvider::class,
+       
 
         /*
          * Package Service Providers...
@@ -178,7 +178,7 @@ return [
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
 //        Barryvdh\DomPDF\ServiceProvider::class,
-        Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class
+        // Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class
 
     ],
 
@@ -234,8 +234,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 //        'PDF' => Barryvdh\DomPDF\Facade::class,
-        'PDF' => Meneses\LaravelMpdf\Facades\LaravelMpdf::class,
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        // 'PDF' => Meneses\LaravelMpdf\Facades\LaravelMpdf::class,
+        // 'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 
