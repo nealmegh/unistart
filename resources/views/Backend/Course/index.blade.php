@@ -36,12 +36,7 @@
 <div class="layout-px-spacing">
 
     <div class="row layout-top-spacing">
-        @if(Session::has('message'))
-            <div class="alert alert-gradient mb-4" role="alert">
-                <button  type="button" class="close" data-dismiss="alert" aria-label="Close"><svg> ... </svg></button>
-                <strong>{{ Session::get('message') }}</strong>
-            </div>
-        @endif
+
             <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
                 <div class="widget-content widget-content-area br-6">
 
@@ -51,7 +46,7 @@
                             <h3>Courses</h3>
                         </div>
                         <div class="create-button col-4">
-                        <a href="{{route('courses.create')}}" class="create-button-btn btn btn-success mb-6 mr-4 btn-lg"> Create</a>
+                        <a href="{{route('admin.courses.create')}}" class="create-button-btn btn btn-success mb-6 mr-4 btn-lg"> Create</a>
                         </div>
                     </div>
                     <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
@@ -69,7 +64,7 @@
                                 <td>{{$course->title}}</td>
                                 <td>{{$course->amount}}</td>
                                 <td>
-                                    <a href="{{route('courses.edit', $course->id)}}" class="btn btn-primary">
+                                    <a href="{{route('admin.courses.edit', $course->id)}}" class="btn btn-primary">
                                         <i class="far fa-edit"></i>
                                     </a> ||
 

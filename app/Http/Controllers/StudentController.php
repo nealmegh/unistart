@@ -25,22 +25,44 @@ class StudentController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        return view('Backend.Student.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreStudentRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function store(StoreStudentRequest $request)
     {
-        //
+        $userData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'role_id' => 2,
+            'password' => $request->password
+        ];
+        try{
+            $createUser = New CreateNewUser();
+
+            $user = $createUser->create($userData);
+
+            $request->request->remove('name');
+            $request->request->remove('email');
+            $request->request->remove('password');
+            $request->request->add(['user_id' => $user->id]);
+            Student::create($request->all());
+        }
+        catch (Exception $e)
+        {
+
+        }
+
+        return redirect()->route('admin.students');
     }
 
     public function student_register()

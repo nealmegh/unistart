@@ -24,4 +24,8 @@ class Student extends Model
         'present_address',
         'phone',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -47,7 +47,7 @@
                             </div>
                         </div>
                         <div class="widget-content widget-content-area">
-                            <form class="" method="post" action="{{route('courses.store')}}">
+                            <form class="" method="post" action="{{route('admin.courses.store')}}">
                                 @csrf
                                 <div class="form-group mb-4">
                                     <label class="control-label">Course Name</label>
@@ -104,8 +104,8 @@
             else {
                 document.getElementById('status').value='1';
             }
-
         });
+
     </script>
 
 @endsection

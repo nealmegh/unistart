@@ -64,15 +64,6 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
-    /**
-     * The accessors to append to the model's array form.
-     *: \Illuminate\Database\Eloquent\Relations\HasMany
-     * @var array
-     */
-    public function bookings()
-    {
-        return $this->hasMany('App\Models\Booking');
-    }
     public function student(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne('App\Models\Student');
