@@ -83,7 +83,6 @@
                             <a href="{{route('admin.students.create')}}" class="create-button-btn btn btn-success mb-6 mr-4 btn-lg"> New Student</a>
                         </div>
                     </div>
-                    @cannot('Customer')
                     <table id="html5-extension" class="table table-hover table-striped dataTable">
                         <thead>
                         <tr>
@@ -106,10 +105,10 @@
                                 </td>
                                 <td>{{$student->hsc_year}}</td>
                                 <td>
-                                    <a  href="{{'#'}}" class="btn btn-primary" title="Edit Booking" >
+                                    <a  href="{{route('admin.students.edit', $student->id)}}" class="btn btn-primary" title="Edit Booking" >
                                         <i class="far fa-edit"></i>
                                     </a>
-                                    <a id="{{$student->id}}" class="btn btn-danger delete-booking" onClick="#" >
+                                    <a id="{{$student->id}}" data-value="{{$student->user->name}}" class="btn btn-danger delete-booking" onClick="destroy_student({{$student->id}})" >
                                         <i class="far fa-trash-alt"></i>
                                     </a>
                                 </td>
@@ -118,56 +117,6 @@
 
                         </tbody>
                     </table>
-                    @endcannot
-                    @can('Customer')
-                        <table id="html5-extension" class="table table-hover dataTable">
-                            <thead>
-                            <tr>
-                                <th class="text-center">Booking ID</th>
-                                <th class="text-center">Date</th>
-                                <th class="text-center">Booking Info</th>
-                                <th class="text-center">Price</th>
-                                <th class="text-center">Payment Status</th>
-                                <th class="text-center">Driver</th>
-                                {{--<th>Phone Number</th>--}}
-
-                            </tr>
-                            </thead>
-
-
-                            <tbody>
-                            @foreach($bookings as $booking)
-                                <tr>
-                                    <td>{{$booking->ref_id}}</td>
-                                    <td>{{date('d-m-Y', strtotime($booking->journey_date))}}</td>
-                                    <td>{{'From: '.$booking->from()}}<br>
-                                        {{'To: '.$booking->to()}}
-                                    </td>
-                                    {{--@endif--}}
-                                    <td>{{$booking->price}}</td>
-                                    <td>
-                                        @if($booking->user_transaction_id == null)
-                                            <a href="{{route('front.booking.confirm', $booking->id)}}" class="btn btn-sm btn-secondary ">
-                                                Make Payment
-                                            </a>
-
-                                        @else
-                                            {{$booking->userTransaction->trans_id}}
-                                        @endif
-                                    </td>
-                                    @if($booking->driver == null)
-                                        <td>
-                                            {{'Driver Yet to Assign'}}
-                                        </td>
-                                    @else
-                                        <td>{{$booking->driver->name}}</td>
-                                    @endif
-                                </tr>
-                            @endforeach
-
-                            </tbody>
-                        </table>
-                    @endcan
                 </div>
             </div>
         </div>
@@ -221,8 +170,9 @@
     <!-- END PAGE LEVEL CUSTOM SCRIPTS -->
     <script>
         // $('.delete-car').on('click', function () {
-        function destroy_booking(booking_id) {
-            const bookingName = $('#'+booking_id).attr("data-value");
+        function destroy_student(student_id) {
+            // alert(student_id)
+            const bookingName = $('#'+student_id).attr("data-value");
             const swalWithBootstrapButtons = swal.mixin({
                 confirmButtonClass: 'btn btn-success btn-rounded',
                 cancelButtonClass: 'btn btn-danger btn-rounded mr-3',
@@ -230,7 +180,7 @@
             })
 
             swalWithBootstrapButtons({
-                title: 'Are you sure you want to delete Booking Number' +bookingName+'?',
+                title: 'Are you sure you want to delete ' +bookingName+'?',
                 text: "You won't be able to revert this!",
                 type: 'warning',
                 showCancelButton: true,
@@ -241,7 +191,7 @@
                 showLoaderOnConfirm: true,
                 preConfirm: ()=>{
                     $.ajax({
-                        url: '/admin/bookings/delete/'+booking_id,
+                        url: '/admin/students/delete/'+student_id,
                         method: 'POST',
                         data:{"_token": "{{ csrf_token() }}"},
                         success: function(resp)
@@ -256,7 +206,7 @@
                     swalWithBootstrapButtons(
                         {
                             title: 'Deleted!',
-                            text: 'The car type has been deleted.',
+                            text: 'The Student has been deleted.',
                             type: 'success'
                         }
                     ).then(function (result){

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Answer;
+use App\Models\Category;
 use App\Models\MockTest;
-use App\Models\MockTestItems;
+use App\Models\MockTestItem;
 use App\Models\Question;
 use App\Http\Requests\StoreQuestionRequest;
 use App\Http\Requests\UpdateQuestionRequest;
@@ -33,123 +34,134 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        return view('Backend.Question.create');
+        $categories = Category::all();
+        return view('Backend.Question.create', compact('categories'));
+    }
+    public function choose()
+    {
+        $categories = Category::all();
+        return view('Backend.Dashboard.Student.Test.choose', compact('categories'));
+    }
+    public function redirect(Request $request)
+    {
+//        dd($request['category_id']);
+        $categories = Question::where('category_id', $request['category_id'])->get();
+        if(count($categories) == 0)
+        {
+            return redirect()->back()->with('message', 'No Mock Test Found with this Category');
+        }
+        else
+        {
+            return redirect()->route('student.takeTest', $request['category_id']);
+        }
+
     }
 
-//    public function testExamDemo()
-//    {
-//
-//        $user = Auth::user();
-//        $mockTestData = ['user_id' => $user->id];
-//        $mockTest = MockTest::create($mockTestData);
-//
-//
-//        $mcqQuestions = Question::where('type', 'mcq')->get();
-//        if(count($mcqQuestions) >= 21)
-//        {
-//            $FinalmcqQuestions = $mcqQuestions->random(21);
-//        }
-//        else
-//        {
-//            $FinalmcqQuestions = $mcqQuestions;
-//        }
-//
-//        $dndQuestions = Question::where('type', 'dnd')->get();
-//        if(count($dndQuestions) >= 15)
-//        {
-//            $FinaldndQuestions = $dndQuestions->random(15);
-//        }
-//        else
-//        {
-//            $FinaldndQuestions = $dndQuestions;
-//        }
-//        // dd($FinaldndQuestions,$FinalmcqQuestions );
-//        $questions = $FinalmcqQuestions->merge($FinaldndQuestions);
-//        // dd($questions);
-//
-//        foreach ($questions as $question)
-//        {
-//            $questionData =
-//                [
-//                    'text' => $question->text,
-//                    'type' => $question->type,
-//                    'text_url'=> $question->text_url,
-//                    'number_answers'=> $question->nummber_answers,
-//                    'mark_distribution'=> $question->mark_distribution,
-//                    'question_id'=> $question->id,
-//                    'mock_test_id'=> $mockTest->id,
-//                    'answer_text'=> $question->answers->text,
-//                    'correct_answer'=> $question->answers->correct_answer,
-//                    'category_id'=> $question->category_id,
-//                    'isPro'=> $question->isPro,
-//                    'explanation'=> $question->explanation,
-//                ];
-//            MockTestItems::create($questionData);
-//        }
-////        dd($questions);
-////        $question = $questions[0];
-//        return view('Backend.Question.demotest', compact('questions', 'user', 'mockTest'));
-////        return view('Backend.Question.test', compact('question', 'user', 'mockTest'));
-//    }
-//    public function testExamStore(Request $request)
-//    {
-////        dd($request->all());
-//        $mockTest = MockTest::where('id', $request->mock_test_id)->first();
-//        $user = User::where('id', $request->user_id)->first();
-//        $request->request->remove('_token');
-//        $request->request->remove('user_id');
-//        $request->request->remove('mock_test_id');
-//        $user_answers = $request->all();
-//        $total_obtained_number = 0;
-//        $total_number = 0;
-//
-//        foreach ($user_answers as $key => $user_answer)
-//        {
-//            $obtained_number = 0;
-//            $question_id = ltrim($key, 'question');
-//            $mockTestItem = MockTestItems::where('mock_test_id', $mockTest->id)->where('question_id', $question_id)->first();
-//            if(!is_array($user_answer))
-//            {
-//                if($mockTestItem->correct_answer == $user_answer){
-//                    $obtained_number = $mockTestItem->mark_distribution;
-//                }
-//                $total_number += $mockTestItem->mark_distribution;
-//                $total_obtained_number += $obtained_number;
-//                $mockTestItem->user_answer = $user_answer;
-//                $mockTestItem->number = $obtained_number;
-//                $mockTestItem->save();
-//            }
-//            else{
-//                $dndCheck = 0;
-//                $mTCorrectAnswers = json_decode( $mockTestItem->correct_answer);
-//
-//                foreach ($user_answer as $keyDND => $answer)
-//                {
-//                    if($answer == $mTCorrectAnswers[$keyDND])
-//                    {
-//                        $dndCheck += 1;
-//                    }
-//                }
-//                if($dndCheck == count($mTCorrectAnswers))
-//                {
-//                    $obtained_number = $mockTestItem->mark_distribution;
-//                }
-//                $total_number += $mockTestItem->mark_distribution;
-//                $total_obtained_number += $obtained_number;
-//                $mockTestItem->user_answer = json_encode($user_answer);
-//                $mockTestItem->number = $obtained_number;
-//                $mockTestItem->save();
-//
-//            }
-//
-//        }
-//        $mockTest->total_number = $total_number;
-//        $mockTest->obtained_number = $total_obtained_number;
-//        $mockTest->status = true;
-//        $mockTest->save();
-//        return view('Backend.Question.testEnd', compact('total_obtained_number', 'total_number'));
-////        return route();
-//    }
+    public function testExamDemo(Category $category)
+    {
+
+//        dd($category);
+        $user = Auth::user();
+        $mockTestData = ['user_id' => $user->id];
+        $mockTest = MockTest::create($mockTestData);
+
+
+        $mcqQuestions = Question::where('category_id', $category->id)->get();
+        if(count($mcqQuestions) >= 25)
+        {
+            $FinalmcqQuestions = $mcqQuestions->random(25);
+        }
+        else
+        {
+            $FinalmcqQuestions = $mcqQuestions;
+        }
+
+        $questions = $FinalmcqQuestions;
+
+
+        foreach ($questions as $question)
+        {
+            $questionData =
+                [
+                    'text' => $question->text,
+                    'type' => $question->type,
+                    'text_url'=> $question->text_url,
+                    'number_answers'=> $question->nummber_answers,
+                    'mark_distribution'=> $question->mark_distribution,
+                    'question_id'=> $question->id,
+                    'mock_test_id'=> $mockTest->id,
+                    'answer_text'=> $question->answers->text,
+                    'correct_answer'=> $question->answers->correct_answer,
+                    'category_id'=> $question->category_id,
+                    'isPro'=> $question->isPro,
+                    'explanation'=> $question->explanation,
+                ];
+            MockTestItem::create($questionData);
+        }
+//        dd($questions);
+//        $question = $questions[0];
+        return view('Backend.Question.demotest', compact('questions', 'user', 'mockTest', 'category'));
+//        return view('Backend.Question.test', compact('question', 'user', 'mockTest'));
+    }
+    public function testExamStore(Request $request)
+    {
+
+        $mockTest = MockTest::where('id', $request->mock_test_id)->first();
+        $user = User::where('id', $request->user_id)->first();
+        $request->request->remove('_token');
+        $request->request->remove('user_id');
+        $request->request->remove('mock_test_id');
+        $user_answers = $request->all();
+        $total_obtained_number = 0;
+        $total_number = 0;
+
+        foreach ($user_answers as $key => $user_answer)
+        {
+            $obtained_number = 0;
+            $question_id = ltrim($key, 'question');
+            $mockTestItem = MockTestItem::where('mock_test_id', $mockTest->id)->where('question_id', $question_id)->first();
+            if(!is_array($user_answer))
+            {
+                if($mockTestItem->correct_answer == $user_answer){
+                    $obtained_number = $mockTestItem->mark_distribution;
+                }
+                $total_number += $mockTestItem->mark_distribution;
+                $total_obtained_number += $obtained_number;
+                $mockTestItem->user_answer = $user_answer;
+                $mockTestItem->number = $obtained_number;
+                $mockTestItem->save();
+            }
+            else{
+                $dndCheck = 0;
+                $mTCorrectAnswers = json_decode( $mockTestItem->correct_answer);
+
+                foreach ($user_answer as $keyDND => $answer)
+                {
+                    if($answer == $mTCorrectAnswers[$keyDND])
+                    {
+                        $dndCheck += 1;
+                    }
+                }
+                if($dndCheck == count($mTCorrectAnswers))
+                {
+                    $obtained_number = $mockTestItem->mark_distribution;
+                }
+                $total_number += $mockTestItem->mark_distribution;
+                $total_obtained_number += $obtained_number;
+                $mockTestItem->user_answer = json_encode($user_answer);
+                $mockTestItem->number = $obtained_number;
+                $mockTestItem->save();
+
+            }
+
+        }
+        $mockTest->total_number = $total_number;
+        $mockTest->obtained_number = $total_obtained_number;
+        $mockTest->status = true;
+        $mockTest->save();
+        return view('Backend.Question.testEnd', compact('total_obtained_number', 'total_number'));
+
+    }
 //    public function practiceDnd()
 //    {
 //        $questions = Question::where('type', 'dnd')->get();
@@ -279,7 +291,8 @@ class QuestionController extends Controller
      */
     public function edit(Question $question)
     {
-        return view('Backend.Question.edit', compact('question'));
+        $categories = Category::all();
+        return view('Backend.Question.edit', compact('question', 'categories'));
     }
 
     /**
@@ -291,7 +304,7 @@ class QuestionController extends Controller
      */
     public function update(UpdateQuestionRequest $request, Question $question)
     {
-
+//dd($request->all());
 //        $question = [];
         $answers = [];
         $questions = [];
@@ -360,7 +373,7 @@ class QuestionController extends Controller
             $question->answers->update($answerData);
         }
 //        dd('jho');
-        return redirect()->route('questions.index')->with('message', 'Question Updated');
+        return redirect()->route('admin.questions.index')->with('message', 'Question Updated');
     }
 
     /**

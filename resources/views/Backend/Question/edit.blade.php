@@ -76,7 +76,14 @@
                                         <label for="category_id">Category</label>
                                         <select id="category_id" class="form-control userDriver" name="category_id">
                                             <option value="">Select a Category</option>
-                                            <option value="seru" selected>SERU</option>
+                                            @foreach($categories as $category)
+                                                @if($category->id == $question->category_id)
+                                                    <option value="{{$category->id}}" selected>{{$category->name}}</option>
+                                                @else
+                                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                                @endif
+
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-4">

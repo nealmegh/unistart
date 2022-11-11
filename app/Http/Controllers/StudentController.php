@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Fortify\CreateNewUser;
+use App\Actions\Fortify\UpdateUserProfileInformation;
+use App\Models\Course;
+use App\Models\Module;
 use App\Models\Student;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
+use App\Models\University;
+use App\Models\User;
 use Illuminate\Http\Request;
 use mysql_xdevapi\Exception;
 
@@ -70,6 +75,23 @@ class StudentController extends Controller
         return view('register.student');
     }
 
+    public function universities(){
+        $universities = University::all();
+        return view('Backend.Dashboard.Student.university.index', compact('universities'));
+    }
+    public function courses(){
+        $courses = Course::all();
+        return view('Backend.Dashboard.Student.Course.index', compact('courses'));
+    }
+    public function modules(Course $course){
+        $modules = $course->modules;
+        return view('Backend.Dashboard.Student.Course.modules', compact('course' ,'modules'));
+    }
+    public function moduleView(Course $course, Module $module){
+
+        return view('Backend.Dashboard.Student.Course.moduleView', compact('course' ,'module'));
+    }
+
     public function student_register_store(Request $request)
     {
         $userData = [
@@ -112,11 +134,11 @@ class StudentController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Student  $student
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function edit(Student $student)
     {
-        //
+        return view('Backend.Student.edit', compact('student'));
     }
 
     /**
@@ -124,11 +146,24 @@ class StudentController extends Controller
      *
      * @param  \App\Http\Requests\UpdateStudentRequest  $request
      * @param  \App\Models\Student  $student
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function update(UpdateStudentRequest $request, Student $student)
     {
-        //
+
+        $oldUser = User::find($student->user_id);
+        $data['name'] = $request->name;
+        $data['email'] = $request->email;
+        $data['role_id'] = 2;
+
+        try {
+            $updateUser = new UpdateUserProfileInformation();
+            $updateUser->update($oldUser, $data);
+        } catch (Exception $exception) {
+
+        }
+        $student->update($request->all());
+        return redirect()->route('admin.students');
     }
 
     /**
@@ -139,6 +174,8 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-        //
+        $student->user->delete();
+        $student->delete();
+        return 200;
     }
 }

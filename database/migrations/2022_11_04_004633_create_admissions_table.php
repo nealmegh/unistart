@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('admissions', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('student_id')->nullable();
+            $table->bigInteger('university_id')->nullable();
+            $table->date('admission_test_date')->nullable();
+            $table->string('admission_test_id')->nullable();
             $table->timestamps();
         });
     }

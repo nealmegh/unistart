@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <div class="widget-content widget-content-area">
-                            <form class="" method="post" action="{{route('user.update', $user->id)}}">
+                            <form class="" method="post" action="{{route('admin.user.update', $user->id)}}">
                                 @csrf
                                 <div class="form-group mb-4">
                                     <label class="control-label">Name:</label>
@@ -67,23 +67,24 @@
                                     <input type="email" id="email" name="email" value="{{$user->email}}" placeholder="Email Address" data-validate-minmax="1,20" required="required" class="form-control" >
 
                                 </div>
-                                <input type="hidden" name="password" value="247airportexpress">
-                                <div class="form-group mb-4">
-                                    <label class="control-label" for="phone_full">Phone<span class="required">*</span></label>
-                                    <input type="text" id="phone_full" name="phone_full" value="{{$user->phone}}" placeholder="Phone Number" required="required" class="form-control" >
-                                </div>
-                                <div class="form-group mb-4">
-                                    <label class="control-label" for="r_status">Active<span class="required">*</span></label> <br>
-                                    <label class="switch s-icons s-outline s-outline-success mr-2">
-                                        <input id="r_status" name="r_status" type="checkbox" value="1" checked>
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
+{{--                                <input type="hidden" name="password" value="247airportexpress">--}}
+{{--                                <div class="form-group mb-4">--}}
+{{--                                    <label class="control-label" for="phone_full">Phone<span class="required">*</span></label>--}}
+{{--                                    <input type="text" id="phone_full" name="phone_full" value="{{$user->phone}}" placeholder="Phone Number" required="required" class="form-control" >--}}
+{{--                                </div>--}}
+{{--                                <div class="form-group mb-4">--}}
+{{--                                    <label class="control-label" for="r_status">Active<span class="required">*</span></label> <br>--}}
+{{--                                    <label class="switch s-icons s-outline s-outline-success mr-2">--}}
+{{--                                        <input id="r_status" name="r_status" type="checkbox" value="1" checked>--}}
+{{--                                        <span class="slider round"></span>--}}
+{{--                                    </label>--}}
+{{--                                </div>--}}
                                 <input type="hidden" id="role_id" name="status" value="{{$user->status}}">
                                 <div class="form-row mb-4" style="margin-bottom: 0px !important;">
                                     <label for="role_id">Role</label>
                                     <select id="role_id" class="form-control userDriver" name="role_id">
                                         <option value="" selected>Select a Role</option>
+                                        <option value="1" selected>{{'Admin'}}</option>
                                         @foreach($roles as $role)
                                             @if($user->role_id == $role->id)
                                                 <option value="{{$role->id}}" selected>{{$role->role_name}}</option>

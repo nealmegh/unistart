@@ -34,7 +34,14 @@
 
 @section('main-content')
 <div class="layout-px-spacing">
-
+    @if(Session::has('message'))
+        <div class="alert alert-gradient mb-4" role="alert">
+            <button  type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"  data-dismiss="alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x close"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <strong>{{ Session::get('message') }}</strong>
+        </div>
+    @endif
     <div class="row layout-top-spacing">
 
             <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
@@ -64,11 +71,13 @@
                                 <td>{{$course->title}}</td>
                                 <td>{{$course->amount}}</td>
                                 <td>
+                                    <a href="{{route('admin.courses.assign', $course->id)}}" class="btn btn-success" title="Assign Teacher">
+                                        <i class="far fa-user"></i>
+                                    </a>
                                     <a href="{{route('admin.courses.edit', $course->id)}}" class="btn btn-primary">
                                         <i class="far fa-edit"></i>
-                                    </a> ||
-
-                                    <a id="{{$course->id}}" class="btn btn-danger delete-car" data-value="{{$course->name}}" onClick="destroy_car(this.id)">
+                                    </a>
+                                    <a id="{{$course->id}}" class="btn btn-danger delete-car" data-value="{{$course->title}}" onClick="destroy_car({{$course->id}} )">
                                         <i class="far fa-trash-alt"></i>
                                     </a>
                                 </td>
@@ -137,7 +146,7 @@
             })
 
             swalWithBootstrapButtons({
-                title: 'Are you sure you want to delete '+carName+' car type?',
+                title: 'Are you sure you want to delete '+carName+'?',
                 text: "You won't be able to revert this!",
                 type: 'warning',
                 showCancelButton: true,
@@ -163,7 +172,7 @@
                     swalWithBootstrapButtons(
                         {
                             title: 'Deleted!',
-                            text: 'The car type has been deleted.',
+                            text: 'The Course has been deleted.',
                             type: 'success'
                         }
                     ).then(function (result){

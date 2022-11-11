@@ -22,7 +22,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'phone_full' => ['required']
+//            'phone_full' => ['required']
         ])->validateWithBag('updateProfileInformation');
         if (empty($input['role_id'])){
             $input['role_id'] = 2;
@@ -42,7 +42,6 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user->forceFill([
                 'name' => $input['name'],
                 'email' => $input['email'],
-                'phone' => $input['phone_full'],
                 'role_id' => $input['role_id'],
                 'status' => $input['status'],
             ])->save();

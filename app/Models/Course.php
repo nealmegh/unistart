@@ -12,11 +12,17 @@ class Course extends Model
     protected $fillable = [
         'title',
         'amount',
+        'teacher_id',
         'status',
         'stripe_plan'
     ];
-    public function users()
+    public function teacher()
     {
-        return $this->belongsToMany(User::class)->withTimestamps();
+        return $this->belongsTo(Teacher::class);
     }
+    public function modules()
+    {
+        return $this->hasMany(Module::class);
+    }
+
 }

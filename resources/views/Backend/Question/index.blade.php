@@ -119,10 +119,10 @@
                             <th class="text-center">Question ID</th>
                             <th class="text-center">Question</th>
                             <th class="text-center">Category</th>
-                            <th class="text-center">Type</th>
-                            <th class="text-center">Number of Answers</th>
-                            <th class="text-center">Pro</th>
-                            <th class="text-center">Status</th>
+{{--                            <th class="text-center">Type</th>--}}
+{{--                            <th class="text-center">Number of Answers</th>--}}
+{{--                            <th class="text-center">Pro</th>--}}
+{{--                            <th class="text-center">Status</th>--}}
                             <th class="text-center">Actions</th>
                         </tr>
                         </thead>
@@ -133,11 +133,11 @@
                             <tr>
                                 <td class="text-center"><a class="badge outline-badge-success shadow-none showBooking" data-toggle="modal" data-value="{{$question->id}}"  data-target="#exampleModal">{{$question->id}}</a></td>
                                 <td>{!!$question->text!!} </td>
-                                <td>{{$question->category_id}}</td>
-                                <td>{{$question->type}}</td>
-                                <td>{{$question->number_answers}}</td>
-                                <td>{{$question->status}}</td>
-                                <td>{{$question->isPro}}</td>
+                                <td class="text-center">{{$question->category?->name}}</td>
+{{--                                <td>{{$question->type}}</td>--}}
+{{--                                <td>{{$question->number_answers}}</td>--}}
+{{--                                <td>{{$question->status}}</td>--}}
+{{--                                <td>{{$question->isPro}}</td>--}}
 
                                 <td>
                                     <a  href="{{route('admin.questions.edit', $question->id). '?' . http_build_query(['type_id' => $question->type])}}" class="btn btn-primary" title="Edit Question" >

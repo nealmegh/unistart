@@ -88,9 +88,6 @@
                                         </label>
                                     </div>
                                 </div>
-{{--                                <div class="form-group mb-4">--}}
-{{--                                    --}}
-{{--                                </div>--}}
                                 <div class="form-row mb-4" style="margin-bottom: 0px !important;">
                                     <div class="form-group col-md-6">
                                         <label for="api_user">API USER</label>

@@ -3,26 +3,36 @@
 
             <ul class="navbar-item theme-brand flex-row  text-center">
                 <li class="nav-item theme-logo" >
-                    @cannot('Customer')
+                    @can('Admin')
                     <a href={{route('admin.dashboard')}}>
-                        <img  src= "{{ asset("img/arrow-down.png") }}" class="navbar-logo" alt="logo" style="width: 130px !important;">
+                        <img  src= "{{ asset("img/logo.png") }}" class="navbar-logo" alt="logo" style="width: 34px !important;">
                     </a>
-                    @endcannot
-                    @can('Customer')
-                        <a href={{route('customer.dashboard')}}>
-                            <img  src= "{{ asset("arrow-down.png") }}" class="navbar-logo" alt="logo" style="width: 130px !important;">
+                    @endcan
+                    @can('Student')
+                        <a href={{route('student.dashboard')}}>
+                            <img  src= "{{ asset("img/logo.png") }}" class="navbar-logo" alt="logo" style="width: 34px !important;">
+                        </a>
+                    @endcan
+                    @can('Teacher')
+                        <a href={{route('teacher.dashboard')}}>
+                            <img  src= "{{ asset("img/logo.png") }}" class="navbar-logo" alt="logo" style="width: 34px !important;">
                         </a>
                     @endcan
                 </li>
-                @cannot('Customer')
+                @can('Admin')
                 <li class="nav-item theme-text">
-                    <a href="{{route('admin.dashboard')}}" class="nav-link"> UniStart</a>
+                    <a href="{{route('admin.dashboard')}}" class="nav-link"> UniMate</a>
                 </li>
-                @endcannot
-                @can('Customer')
+                @endcan
+                @can('Student')
                 <li class="nav-item theme-text">
-                    <a href="{{route('customer.dashboard')}}" class="nav-link"> UniStart</a>
+                    <a href="{{route('student.dashboard')}}" class="nav-link"> UniMate</a>
                 </li>
+                @endcan
+                @can('Teacher')
+                    <li class="nav-item theme-text">
+                        <a href="{{route('teacher.dashboard')}}" class="nav-link"> UniMate</a>
+                    </li>
                 @endcan
             </ul>
 

@@ -53,31 +53,69 @@
                         </div>
                     </div>
                     <div class="widget-content widget-content-area">
-                        <form class="" method="POST" action="{{route('courses.update', $course->id)}}">
+                        <form class="" method="POST" action="{{route('admin.universities.update', $university->id)}}">
                             @csrf
                             {{ method_field('PUT') }}
-                            <div class="form-group mb-4">
-                                <label class="control-label">Course Name</label>
-                                <input value="{{$course->title}}" id="title" name="title" placeholder="Course Name" required="required" type="text" class="form-control" >
+                            <div class="form-row mb-4" style="margin-bottom: 0px !important;">
+                                <label for="name">NAME<span class="required">*</span></label>
+                                <input id="name" name="name" value="{{old('name') ?? $university->name}}"  type="text" class="form-control" placeholder="name ">
                             </div>
-                            <div class="form-group mb-4">
-                                <label class="control-label">Course Fees<span class="required">*</span></label>
-                                <input value="{{$course->amount}}" type="number" step="0.01" id="amount" name="amount" placeholder="Course Fees" required="required" class="form-control" >
+                            <div class="form-row mb-4" style="margin-bottom: 0px !important;">
+                                <label for="uri">URL<span class="required">*</span></label>
+                                <input id="uri" name="uri" value="{{old('uri') ?? $university->uri}}" type="text" class="form-control" placeholder="URL ">
+                            </div>
+                            <div class="form-row mb-4" style="margin-bottom: 0px !important;">
+                                <div class="form-group col-md-6">
+                                    <label for="phone">PHONE</label>
+                                    <input type="hidden" id="countryCode" name="countryCode" value="">
+                                    <input id="phone" name="phone" type="text" value="{{old('phone') ?? $university->phone}}" class="form-control" placeholder="Phone ">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="email">EMAIL<span class="required">*</span></label>
+                                    <input id="email" name="email" type="text" value="{{old('email') ?? $university->email}}" class="form-control" placeholder="Email">
+                                </div>
+                            </div>
+                            <div class="form-row mb-4" style="margin-bottom: 0px !important;">
+                                <label for="address">Address</label>
+                                <input id="address" name="address" value="{{old('address') ?? $university->address}}" type="text" class="form-control" placeholder="Address ">
+                            </div>
+                            <div class="form-row mb-4" style="margin-bottom: 0px !important;">
+                                <div class="form-group mb-4">
+                                    <label class="control-label" for="status">Active<span class="required">*</span></label> <br>
+                                    <label class="switch s-icons s-outline s-outline-success mr-2">
+                                        @if($university->status == 1)
+                                            <input id="status" name="status" type="checkbox" value="1" checked>
+                                        @else
+                                            <input id="status" name="status" type="checkbox" value="0">
+                                        @endif
 
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="api_availability">API Available<span class="required">*</span></label> <br>
+                                    <label class="switch s-icons s-outline s-outline-success mr-2">
+                                        @if($university->api_availability == 1)
+                                            <input id="api_availability" name="api_availability" type="checkbox" value="1" checked>
+                                        @else
+                                            <input id="api_availability" name="api_availability" type="checkbox" value="0">
+                                        @endif
+
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-row mb-4" style="margin-bottom: 0px !important;">
+                                <div class="form-group col-md-6">
+                                    <label for="api_user">API USER</label>
+                                    <input id="api_user" name="api_user" value="{{$university->api_user}}" type="text" class="form-control" placeholder="">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="api_secret">API SECRET</label>
+                                    <input id="api_secret" name="api_secret" value="{{$university->api_secret}}" type="text" class="form-control" placeholder="">
+                                </div>
                             </div>
 
-                            <div class="form-group mb-4">
-                                <label class="control-label" for="status">Active<span class="required">*</span></label> <br>
-                                <label class="switch s-icons s-outline s-outline-success mr-2">
-                                    @if($course->status == 1)
-                                    <input id="status" name="status" type="checkbox" value="1" checked>
-                                    @else
-                                    <input id="status" name="status" type="checkbox" value="0">
-                                    @endif
-
-                                    <span class="slider round"></span>
-                                </label>
-                            </div>
                             <a href="{{url()->previous()}}" class="btn btn-danger ml-3 mt-3">Cancel</a>
                             <button id="send" type="submit" class="btn btn-success ml-3 mt-3">Submit</button>
                         </form>

@@ -63,13 +63,15 @@
                                         <label for="category_id">Category</label>
                                         <select id="category_id" class="form-control userDriver" name="category_id">
                                             <option value="">Select a Category</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="type_id">Type</label>
                                         <select id="type_id" class="form-control userDriver" name="type_id" onchange="cityChangedTrigger()">
                                             <option value="">Select a Type</option>
-
                                             <option value="mcq" {{request()->type_id == 'mcq'? 'selected':''}}>Multiple Choice</option>
 
                                         </select>

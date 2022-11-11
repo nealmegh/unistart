@@ -60,11 +60,11 @@ class UniversityController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\University  $university
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function edit(University $university)
     {
-        //
+        return view('Backend.University.edit', compact('university'));
     }
 
     /**
@@ -72,11 +72,12 @@ class UniversityController extends Controller
      *
      * @param  \App\Http\Requests\UpdateUniversityRequest  $request
      * @param  \App\Models\University  $university
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateUniversityRequest $request, University $university)
     {
-        //
+        $university->update($request->all());
+        return redirect()->route('admin.universities.index');
     }
 
     /**
@@ -87,6 +88,7 @@ class UniversityController extends Controller
      */
     public function destroy(University $university)
     {
-        //
+        $university->delete();
+        return 200;
     }
 }

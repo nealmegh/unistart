@@ -73,9 +73,8 @@
                                 <td>
                                     <a href="{{route('admin.universities.edit', $university->id)}}" class="btn btn-primary">
                                         <i class="far fa-edit"></i>
-                                    </a> ||
-
-                                    <a id="{{$university->id}}" class="btn btn-danger delete-car" data-value="{{$university->name}}" onClick="#">
+                                    </a>
+                                    <a id="{{$university->id}}" class="btn btn-danger delete-car" data-value="{{$university->name}}" onClick="destroy_uni({{$university->id}})">
                                         <i class="far fa-trash-alt"></i>
                                     </a>
                                 </td>
@@ -135,7 +134,7 @@
 
 
         // $('.delete-car').on('click', function () {
-         function destroy_car(car_id) {
+         function destroy_uni(car_id) {
              const carName = $('#'+car_id).attr("data-value");
             const swalWithBootstrapButtons = swal.mixin({
                 confirmButtonClass: 'btn btn-success btn-rounded',
@@ -144,7 +143,7 @@
             })
 
             swalWithBootstrapButtons({
-                title: 'Are you sure you want to delete '+carName+' car type?',
+                title: 'Are you sure you want to delete '+carName+'?',
                 text: "You won't be able to revert this!",
                 type: 'warning',
                 showCancelButton: true,
@@ -155,7 +154,7 @@
                 showLoaderOnConfirm: true,
                 preConfirm: ()=>{
                     $.ajax({
-                        url: '/admin/courses/delete/'+car_id,
+                        url: '/admin/universities/delete/'+car_id,
                         method: 'POST',
                         data:{"_token": "{{ csrf_token() }}"},
                         success: function(resp)
@@ -170,7 +169,7 @@
                     swalWithBootstrapButtons(
                         {
                             title: 'Deleted!',
-                            text: 'The car type has been deleted.',
+                            text: 'The university has been deleted.',
                             type: 'success'
                         }
                     ).then(function (result){

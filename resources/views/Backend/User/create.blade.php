@@ -56,36 +56,37 @@
                             </div>
                         </div>
                         <div class="widget-content widget-content-area">
-                            <form class="" method="post" action="{{route('user.store')}}">
+                            <form class="" method="post" action="{{route('admin.user.store')}}">
                                 @csrf
                                 <div class="form-group mb-4">
                                     <label class="control-label">Name:</label>
                                     <input id="name" name="name" placeholder="Name" required="required" type="text" class="form-control" >
                                 </div>
                                 <div class="form-group mb-4">
-                                    <label class="control-label">Email <span class="required">*</span><span> (Default Pass: Exam123456)</span></label>
+                                    <label class="control-label">Email <span class="required">*</span><span> (Default Pass: UNI12345678)</span></label>
                                     <input type="email" id="email" name="email" placeholder="Email Address" data-validate-minmax="1,20" required="required" class="form-control" >
 
                                 </div>
 
-                                <input type="hidden" name="password" value="Exam123456">
-                                <div class="form-group mb-4">
-                                    <label class="control-label" for="phone_full">Phone<span class="required">*</span></label>
-                                    <input type="text" id="phone_full" name="phone_full" placeholder="Phone Number" required="required" class="form-control" >
-                                </div>
-                                <div class="form-group mb-4">
-                                    <label class="control-label" for="r_status">Active<span class="required">*</span></label> <br>
-                                    <label class="switch s-icons s-outline s-outline-success mr-2">
-                                        <input id="r_status" name="r_status" type="checkbox" value="1" checked>
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
+                                <input type="hidden" name="password" value="UNI12345678">
+{{--                                <div class="form-group mb-4">--}}
+{{--                                    <label class="control-label" for="phone_full">Phone<span class="required">*</span></label>--}}
+{{--                                    <input type="text" id="phone_full" name="phone_full" placeholder="Phone Number" required="required" class="form-control" >--}}
+{{--                                </div>--}}
+{{--                                <div class="form-group mb-4">--}}
+{{--                                    <label class="control-label" for="r_status">Active<span class="required">*</span></label> <br>--}}
+{{--                                    <label class="switch s-icons s-outline s-outline-success mr-2">--}}
+{{--                                        <input id="r_status" name="r_status" type="checkbox" value="1" checked>--}}
+{{--                                        <span class="slider round"></span>--}}
+{{--                                    </label>--}}
+{{--                                </div>--}}
 
                                 <input type="hidden" id="role_id" name="status" value="1">
                                 <div class="form-row mb-4" style="margin-bottom: 0px !important;">
                                     <label for="role_id">Role</label>
                                     <select id="role_id" class="form-control userDriver" name="role_id">
                                         <option value="" selected>Select a Role</option>
+                                        <option value="1">{{'Admin'}}</option>
                                         @foreach($roles as $role)
                                             <option value="{{$role->id}}">{{$role->role_name}}</option>
                                         @endforeach

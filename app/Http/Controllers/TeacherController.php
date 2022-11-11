@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Fortify\CreateNewUser;
+use App\Actions\Fortify\UpdateUserProfileInformation;
 use App\Models\Teacher;
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use mysql_xdevapi\Exception;
 
@@ -29,6 +31,10 @@ class TeacherController extends Controller
     public function create()
     {
         return view('Backend.Teacher.create');
+    }
+    public function courses()
+    {
+        return view('Backend.Dashboard.Teacher.Course.index');
     }
 
     public function teacher_register()
@@ -111,11 +117,11 @@ class TeacherController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Teacher  $teacher
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function edit(Teacher $teacher)
     {
-        //
+        return view('Backend.Teacher.edit', compact('teacher'));
     }
 
     /**
@@ -123,11 +129,23 @@ class TeacherController extends Controller
      *
      * @param  \App\Http\Requests\UpdateTeacherRequest  $request
      * @param  \App\Models\Teacher  $teacher
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function update(UpdateTeacherRequest $request, Teacher $teacher)
     {
-        //
+        $oldUser = User::find($teacher->user_id);
+        $data['name'] = $request->name;
+        $data['email'] = $request->email;
+        $data['role_id'] = 3;
+
+        try {
+            $updateUser = new UpdateUserProfileInformation();
+            $updateUser->update($oldUser, $data);
+        } catch (Exception $exception) {
+
+        }
+        $teacher->update($request->all());
+        return redirect()->route('admin.teachers');
     }
 
     /**
@@ -138,6 +156,8 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-        //
+        $teacher->user->delete();
+        $teacher->delete();
+        return 200;
     }
 }

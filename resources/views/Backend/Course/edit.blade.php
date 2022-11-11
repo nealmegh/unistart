@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="widget-content widget-content-area">
-                        <form class="" method="POST" action="{{route('courses.update', $course->id)}}">
+                        <form class="" method="POST" action="{{route('admin.courses.update', $course->id)}}">
                             @csrf
                             {{ method_field('PUT') }}
                             <div class="form-group mb-4">

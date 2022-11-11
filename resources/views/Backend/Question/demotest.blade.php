@@ -188,7 +188,7 @@
                 <div class="widget widget-content-area br-4 bg-success">
                     <div class="d-flex justify-content-between">
                         <span></span>
-                        <h1 class="text-center custom-head"> SERU TEST</h1>
+                        <h1 class="text-center custom-head"> Mock TEST on {{$category->name}}</h1>
 
                         <div id="countdowntimer"><span id="hm_timer"> </span> </div>
                     </div>
@@ -198,7 +198,7 @@
 
                 </div>
                 <div class="col-xl-12 col-lg-12 col-md-12 col-12 disable-select bg-light-warning custom-font " >
-                    <form id="questionForm" action="store_answers" method="post" onsubmit="makeNull()">
+                    <form id="questionForm" action="/student/mock_test/store_answers" method="post" onsubmit="makeNull()">
                         @csrf
                         <input type="hidden" name="mock_test_id" value="{{$mockTest->id}}">
                         <input type="hidden" name="user_id" value="{{$user->id}}">
@@ -248,6 +248,10 @@
                                         @include('Backend.Question.dnd')
                                     @endif
                                     <div class="btnDiv pb-3">
+                                        @if(count($questions) == 1)
+                                            <input id="sendansbutton" class="btn questionsend btn-success float-right" type="submit">
+                                        @endif
+
                                         @if($key == 0)
                                             <a class="btn btn-primary btnNext float-right">Next</a>
                                         @elseif(count($questions) == ($key+1))

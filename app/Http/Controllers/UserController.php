@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('role_id', '!=', 2)->get();
+        $users = User::where('role_id', '=', 1)->get();
         return view('Backend.User.index', compact('users'));
     }
 
@@ -49,7 +49,7 @@ class UserController extends Controller
         {
 
         }
-        return redirect(route('user.users'));
+        return redirect(route('admin.user.users'));
     }
 
     /**
@@ -87,14 +87,10 @@ class UserController extends Controller
     {
         $oldUser = User::find($id);
         $updateUser = New UpdateUserProfileInformation();
+//        $request->request->add(['role_id' => 1]);
         $updateUser->update($oldUser, $request->all());
-        if($oldUser->role_id != 2)
-        {
-            return redirect()->route('user.users')->with('message', 'User Updated');
-        }
-        else{
-            return redirect()->route('customers')->with('message', 'Customer Updated');
-        }
+
+            return redirect()->route('admin.user.users')->with('message', 'User Updated');
 
     }
     public function updatePassword(Request $request, $id)
@@ -111,6 +107,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $oldUser = User::find($id);
+        $oldUser->delete();
+        return 200;
     }
 }

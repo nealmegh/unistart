@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
+use App\Models\Teacher;
+use Illuminate\Http\Request;
+
 
 class CourseController extends Controller
 {
@@ -27,6 +30,18 @@ class CourseController extends Controller
     public function create()
     {
         return view('Backend.Course.create');
+    }
+    public function assign(Course $course)
+    {
+        $teachers = Teacher::all();
+        return view('Backend.Course.assign', compact('course', 'teachers'));
+    }
+    public function assignStore(Course $course, Request $request)
+    {
+        $course->teacher_id = $request->teacher_id;
+        $course->save();
+//        dd($request->all());
+        return redirect()->route('admin.courses.index')->with('message', 'Teacher Assigned');
     }
 
     /**
@@ -112,8 +127,7 @@ class CourseController extends Controller
     public function destroy(Course $course)
     {
         $course->delete();
-
-//        return 200;
-        return redirect()->route('admin.courses.index')->with('message', 'Course Deleted');
+        return 200;
+//        return redirect()->route('admin.courses.index')->with('message', 'Course Deleted');
     }
 }

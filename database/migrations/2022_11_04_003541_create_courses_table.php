@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->float('amount');
+            $table->float('amount')->default(0);
+            $table->bigInteger('teacher_id')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
             $table->softDeletes();

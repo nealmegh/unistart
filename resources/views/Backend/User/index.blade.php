@@ -53,7 +53,7 @@
                             <h3>Users</h3>
                         </div>
                         <div class="create-button col-4">
-                        <a href="#" class="create-button-btn btn btn-success mb-6 mr-4 btn-lg"> Create</a>
+                        <a href="{{route('admin.user.create')}}" class="create-button-btn btn btn-success mb-6 mr-4 btn-lg"> Create</a>
                         </div>
                     </div>
                     <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
@@ -79,7 +79,7 @@
 {{--                                    <a href="{{route('user.show', $user->id)}}" class="btn btn-success">--}}
 {{--                                        <i class="far fa-eye"></i>--}}
 {{--                                    </a>--}}
-                                    <a href="#" class="btn btn-primary">
+                                    <a href="{{route('admin.user.edit', $user->id)}}" class="btn btn-primary">
                                         <i class="far fa-edit"></i>
                                     </a>
 
@@ -152,7 +152,7 @@
             })
 
             swalWithBootstrapButtons({
-                title: 'Are you sure you want to delete '+carName+' car type?',
+                title: 'Are you sure you want to delete '+carName+'?',
                 text: "You won't be able to revert this!",
                 type: 'warning',
                 showCancelButton: true,
@@ -163,7 +163,7 @@
                 showLoaderOnConfirm: true,
                 preConfirm: ()=>{
                     $.ajax({
-                        url: '/admin/cars/delete/'+car_id,
+                        url: '/admin/users/delete/'+car_id,
                         method: 'POST',
                         data:{"_token": "{{ csrf_token() }}"},
                         success: function(resp)
@@ -178,7 +178,7 @@
                     swalWithBootstrapButtons(
                         {
                             title: 'Deleted!',
-                            text: 'The car type has been deleted.',
+                            text: 'The Admin user has been deleted.',
                             type: 'success'
                         }
                     ).then(function (result){
